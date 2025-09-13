@@ -12,13 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class PacienteService {
 
     private final PacienteRepository repo;
 
     @Transactional
-    public Long criar(PacienteCreateDTO dto) {
+    public PacienteResponseDTO criar(PacienteCreateDTO dto) {
         repo.findByCpfValue(dto.cpf()).ifPresent(p -> {
             throw new IllegalArgumentException("CPF já cadastrado");
         });
@@ -27,27 +28,36 @@ public class PacienteService {
                 .cpf(new Cpf(dto.cpf()))
                 .email(new Email(dto.email()))
                 .build();
-        return repo.save(paciente).getId();
+        Paciente salvo = repo.save(paciente);
+        return new PacienteResponseDTO(salvo.getId(), salvo.getNome(),
+                salvo.getCpf().getValue(), salvo.getEmail().getValue());
     }
 
     @Transactional(readOnly = true)
     public List<PacienteResponseDTO> listar() {
         return repo.findAll().stream()
-                .map(p -> new PacienteResponseDTO(
-                        p.getId(), p.getNome(),
+                .map(p -> new PacienteResponseDTO(p.getId(), p.getNome(),
                         p.getCpf().getValue(), p.getEmail().getValue()))
                 .toList();
     }
 
     @Transactional
-    public void editar(Long id, PacienteEditDTO dto) {
+    public PacienteResponseDTO editar(Long id, PacienteEditDTO dto) {
         Paciente paciente = repo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Paciente não encontrado"));
-
         paciente.setNome(dto.nome());
         paciente.setCpf(new Cpf(dto.cpf()));
         paciente.setEmail(new Email(dto.email()));
+        Paciente salvo = repo.save(paciente);
+        return new PacienteResponseDTO(salvo.getId(), salvo.getNome(),
+                salvo.getCpf().getValue(), salvo.getEmail().getValue());
+    }
 
-        repo.save(paciente);
+    @Transactional
+    public void deletar(Long id) {
+        if (!repo.existsById(id)) {
+            throw new IllegalArgumentException("Paciente não encontrado");
+        }
+        repo.deleteById(id);
     }
 }

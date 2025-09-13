@@ -16,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class ConsultaService {
 
     private final ConsultaRepository consultaRepo;
@@ -24,7 +25,7 @@ public class ConsultaService {
     private final MedicoRepository medicoRepo;
 
     @Transactional
-    public Long criar(ConsultaCreateDTO dto) {
+    public ConsultaResponseDTO criar(ConsultaCreateDTO dto) {
         Paciente paciente = pacienteRepo.findById(dto.pacienteId())
                 .orElseThrow(() -> new IllegalArgumentException("Paciente não encontrado"));
         Medico medico = medicoRepo.findById(dto.medicoId())
@@ -37,7 +38,15 @@ public class ConsultaService {
                 .dataHora(dto.dataHora())
                 .build();
 
-        return consultaRepo.save(consulta).getId();
+        Consulta salvo = consultaRepo.save(consulta);
+
+        return new ConsultaResponseDTO(
+                salvo.getId(),
+                salvo.getPaciente().getNome(),
+                salvo.getMedico().getNome(),
+                salvo.getStatus().name(),
+                salvo.getDataHora()
+        );
     }
 
     @Transactional(readOnly = true)
@@ -54,7 +63,7 @@ public class ConsultaService {
     }
 
     @Transactional
-    public void editar(Long id, ConsultaEditDTO dto) {
+    public ConsultaResponseDTO editar(Long id, ConsultaEditDTO dto) {
         Consulta consulta = consultaRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Consulta não encontrada"));
 
@@ -68,6 +77,23 @@ public class ConsultaService {
         consulta.setStatus(StatusConsulta.valueOf(dto.status()));
         consulta.setDataHora(dto.dataHora());
 
-        consultaRepo.save(consulta);
+        Consulta salvo = consultaRepo.save(consulta);
+
+        return new ConsultaResponseDTO(
+                salvo.getId(),
+                salvo.getPaciente().getNome(),
+                salvo.getMedico().getNome(),
+                salvo.getStatus().name(),
+                salvo.getDataHora()
+        );
     }
+
+    @Transactional
+    public void deletar(Long id) {
+        if (!consultaRepo.existsById(id)) {
+            throw new IllegalArgumentException("Consulta não encontrada");
+        }
+        consultaRepo.deleteById(id);
+    }
+
 }

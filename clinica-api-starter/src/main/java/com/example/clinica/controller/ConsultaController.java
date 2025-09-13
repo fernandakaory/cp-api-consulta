@@ -24,9 +24,11 @@ public class ConsultaController {
     @Operation(summary = "Cria uma consulta")
     @ApiResponse(responseCode = "201", description = "Consulta criada")
     @PostMapping
-    public ResponseEntity<Void> criar(@Valid @RequestBody ConsultaCreateDTO dto) {
-        Long id = service.criar(dto);
-        return ResponseEntity.created(URI.create("/consultas/" + id)).build();
+    public ResponseEntity<ConsultaResponseDTO> criar(@Valid @RequestBody ConsultaCreateDTO dto) {
+        ConsultaResponseDTO consultaCriada = service.criar(dto);
+        return ResponseEntity
+                .created(URI.create("/consultas/" + consultaCriada.id()))
+                .body(consultaCriada);
     }
 
     @Operation(summary = "Lista consultas")
@@ -38,19 +40,28 @@ public class ConsultaController {
     @Operation(summary = "Busca consulta por id")
     @GetMapping("/{id}")
     public ResponseEntity<ConsultaResponseDTO> buscarPorId(@PathVariable Long id) {
-        return service.listar()
-                .stream()
-                .filter(c -> c.id().equals(id))
+        return service.listar().stream()
+                .filter(c -> c.id().equals(id))       // record usa id()
                 .findFirst()
-                .map(ResponseEntity::ok)
+                .map(c -> ResponseEntity.ok(c))       // lambda evita ambiguidades
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Edita uma consulta")
-    @ApiResponse(responseCode = "204", description = "Consulta editada")
+    @ApiResponse(responseCode = "200", description = "Consulta editada")
     @PutMapping("/{id}")
-    public ResponseEntity<Void> editar(@PathVariable Long id, @Valid @RequestBody ConsultaEditDTO dto) {
-        service.editar(id, dto);
+    public ResponseEntity<ConsultaResponseDTO> editar(@PathVariable Long id,
+                                                      @Valid @RequestBody ConsultaEditDTO dto) {
+        ConsultaResponseDTO consultaAtualizada = service.editar(id, dto);
+        return ResponseEntity.ok(consultaAtualizada);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Deleta uma consulta")
+    @ApiResponse(responseCode = "204", description = "Consulta deletada")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
 }

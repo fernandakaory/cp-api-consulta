@@ -7,12 +7,12 @@ import com.example.clinica.service.MedicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/medicos")
@@ -24,9 +24,11 @@ public class MedicoController {
     @Operation(summary = "Cria um médico")
     @ApiResponse(responseCode = "201", description = "Médico criado")
     @PostMapping
-    public ResponseEntity<Void> criar(@Valid @RequestBody MedicoCreateDTO dto) {
-        Long id = service.criar(dto);
-        return ResponseEntity.created(URI.create("/medicos/" + id)).build();
+    public ResponseEntity<MedicoResponseDTO> criar(@Valid @RequestBody MedicoCreateDTO dto) {
+        MedicoResponseDTO medicoCriado = service.criar(dto);
+        return ResponseEntity
+                .created(URI.create("/medicos/" + medicoCriado.id()))
+                .body(medicoCriado);
     }
 
     @Operation(summary = "Lista médicos")
@@ -39,17 +41,27 @@ public class MedicoController {
     @GetMapping("/{id}")
     public ResponseEntity<MedicoResponseDTO> buscarPorId(@PathVariable Long id) {
         return service.listar().stream()
-                .filter(m -> m.id().equals(id))
+                .filter(m -> m.id().equals(id))      // record usa id()
                 .findFirst()
-                .map(ResponseEntity::ok)
+                .map(m -> ResponseEntity.ok(m))       // lambda
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Edita um médico")
-    @ApiResponse(responseCode = "204", description = "Médico editado")
+    @ApiResponse(responseCode = "200", description = "Médico editado")
     @PutMapping("/{id}")
-    public ResponseEntity<Void> editar(@PathVariable Long id, @Valid @RequestBody MedicoEditDTO dto) {
-        service.editar(id, dto);
+    public ResponseEntity<MedicoResponseDTO> editar(@PathVariable Long id,
+                                                    @Valid @RequestBody MedicoEditDTO dto) {
+        MedicoResponseDTO medicoAtualizado = service.editar(id, dto);
+        return ResponseEntity.ok(medicoAtualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Deleta um médico")
+    @ApiResponse(responseCode = "204", description = "Médico deletado")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
 }
