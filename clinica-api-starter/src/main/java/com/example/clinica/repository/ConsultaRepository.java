@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     List<Consulta> findByMedicoId(Long medicoId);
-    boolean existsByMedicoIdAndDataHora(Long medicoId, LocalDateTime dataHora);
 
     List<Consulta> findByPacienteId(Long pacienteId);
 

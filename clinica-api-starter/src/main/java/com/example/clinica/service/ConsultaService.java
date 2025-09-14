@@ -96,4 +96,31 @@ public class ConsultaService {
         consultaRepo.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
+    public List<ConsultaResponseDTO> listarPorMedico(Long medicoId) {
+        return consultaRepo.findByMedicoId(medicoId).stream()
+                .map(c -> new ConsultaResponseDTO(
+                        c.getId(),
+                        c.getPaciente().getNome(),
+                        c.getMedico().getNome(),
+                        c.getStatus().name(),
+                        c.getDataHora()
+                ))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ConsultaResponseDTO> listarPorPaciente(Long pacienteId) {
+        return consultaRepo.findByPacienteId(pacienteId).stream()
+                .map(c -> new ConsultaResponseDTO(
+                        c.getId(),
+                        c.getPaciente().getNome(),
+                        c.getMedico().getNome(),
+                        c.getStatus().name(),
+                        c.getDataHora()
+                ))
+                .toList();
+    }
+
+
 }

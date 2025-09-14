@@ -64,4 +64,17 @@ public class ConsultaController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Lista consultas por médico")
+    @GetMapping("/medico/{medicoId}")
+    public List<ConsultaResponseDTO> listarPorMedico(@PathVariable Long medicoId) {
+        return service.listarPorMedico(medicoId);
+    }
+
+    @Operation(summary = "Lista consultas por paciente")
+    @GetMapping("/paciente/{pacienteId}")
+    public List<ConsultaResponseDTO> listarPorPaciente(@PathVariable Long pacienteId) {
+        return service.listarPorPaciente(pacienteId);
+    }
+
+
 }
