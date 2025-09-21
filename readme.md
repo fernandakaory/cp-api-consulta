@@ -7,7 +7,7 @@ Este projeto é uma API para gerenciamento de **consultas médicas**, com cadast
 A documentação interativa está disponível via **Swagger UI**:  
 
 - **Swagger UI:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
-- **YouTube:** [https://youtu.be/s7crlwdU9tc]([https://youtu.be/3oeHagna33A](https://youtu.be/s7crlwdU9tc))
+- **YouTube:** [https://youtu.be/s7crlwdU9tc]([https://youtu.be/3oeHagna33A](https://youtu.be/s7crlwdU9tc)
 
 
 ---
