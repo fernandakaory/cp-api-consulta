@@ -5,7 +5,19 @@ A documentação interativa está disponível via **Swagger UI**:
 👉 `http://localhost:8080/swagger-ui.html`
 
 ---
+## Sugestões de Evoluções
 
+1. **Implementar busca de consultas por CPF do paciente** (`GET`)  
+   Funcionalidade que permite a recuperação de consultas associadas a um paciente específico utilizando seu CPF como parâmetro.
+
+2. **Implementar busca de consultas por CRM do médico** (`GET`)  
+   Funcionalidade que permite a recuperação de consultas associadas a um médico específico utilizando seu CRM como parâmetro.
+
+3. **Busca de consultas por ID do paciente** (`GET`) – *Funcionalidade já implementada*  
+   Esta funcionalidade já está disponível e permite a consulta de registros vinculados ao ID único do paciente.
+
+
+---
 ## Estrutura da API
 
 A API é dividida em três recursos principais:
