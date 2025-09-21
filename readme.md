@@ -1,5 +1,5 @@
 # API de Agendamento de Consultas
-
+- Fernanda Kaory Saito - RM551104
 Este projeto é uma API para gerenciamento de **consultas médicas**, com cadastro de **pacientes**, **médicos** e **consultas**.  
 A documentação interativa está disponível via **Swagger UI**:  
 - Link Swagger - http://localhost:8080/swagger-ui.html
