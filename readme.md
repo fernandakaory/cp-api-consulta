@@ -211,18 +211,15 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
 - **Descrição:** Busca uma consulta específica.
 - **Response Body (exemplo):**
 ```json
-{
-  "id": 1,
-  "paciente": {
+[
+  {
     "id": 1,
-    "nome": "Maria Silva"
-  },
-  "medico": {
-    "id": 2,
-    "nome": "Dra. Ana"
-  },
-  "dataHora": "2025-09-25T14:00:00"
-}
+    "pacienteNome": "Maria Silva",
+    "medicoNome": "Dra. Ana",
+    "status": "AGENDADA",
+    "dataHora": "2025-09-25T16:50:34.485"
+  }
+]
 ```
 #### Response Code
 - 200 - OK  
@@ -237,16 +234,18 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
 [
   {
     "id": 1,
-    "paciente": {
-      "id": 1,
-      "nome": "Maria Silva"
-    },
-    "medico": {
+    "pacienteNome": "Fernanda Saito",
+    "medicoNome": "Dra. Ana",
+    "status": "AGENDADA",
+    "dataHora": "2025-09-25T16:50:34.485"
+  },
+  {
       "id": 2,
-      "nome": "Dra. Ana"
-    },
-    "dataHora": "2025-09-25T14:00:00"
-  }
+      "pacienteNome": "Leonardo Camargo",
+      "medicoNome": "Dr, João",
+      "status": "AGENDADA",
+      "dataHora": "2025-09-26T16:50:34.485"
+    }
 ]
 ```
 #### Response Code
@@ -261,16 +260,11 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
 ```json
 [
   {
-    "id": 3,
-    "paciente": {
-      "id": 4,
-      "nome": "Carlos"
-    },
-    "medico": {
-      "id": 2,
-      "nome": "Dra. Ana"
-    },
-    "dataHora": "2025-09-28T09:00:00"
+    "id": 1,
+    "pacienteNome": "Maria Silva",
+    "medicoNome": "Dra. Ana",
+    "status": "AGENDADA",
+    "dataHora": "2025-09-25T16:50:34.485"
   }
 ]
 ```
@@ -286,16 +280,11 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
 ```json
 [
   {
-    "id": 5,
-    "paciente": {
-      "id": 1,
-      "nome": "Maria Silva"
-    },
-    "medico": {
-      "id": 3,
-      "nome": "Dr. Paulo"
-    },
-    "dataHora": "2025-09-30T11:00:00"
+    "id": 1,
+    "pacienteNome": "Maria Silva",
+    "medicoNome": "Dra. Ana",
+    "status": "AGENDADA",
+    "dataHora": "2025-09-25T16:50:34.485"
   }
 ]
 ```
@@ -310,7 +299,10 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
 - **Request Body (exemplo):**
 ```json
 {
-  "dataHora": "2025-09-26T10:00:00"
+  "pacienteId": 1,
+  "medicoId": 1,
+  "status": "AGENDADA",
+  "dataHora": "2025-09-25T16:50:34.485Z"
 }
 ```
 #### Response Code
