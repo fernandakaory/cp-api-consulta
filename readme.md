@@ -113,7 +113,6 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
 {
   "nome": "Dr. João",
   "crm": "123456",
-  "especialidade": "Cardiologia",
   "email": "joao@medico.com"
 }
 ```
@@ -131,7 +130,6 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
   "id": 1,
   "nome": "Dr. João",
   "crm": "123456",
-  "especialidade": "Cardiologia",
   "email": "joao@medico.com"
 }
 ```
@@ -150,14 +148,12 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
     "id": 1,
     "nome": "Dr. João",
     "crm": "123456",
-    "especialidade": "Cardiologia",
     "email": "joao@medico.com"
   },
   {
     "id": 2,
     "nome": "Dra. Ana",
     "crm": "654321",
-    "especialidade": "Dermatologia",
     "email": "ana@medico.com"
   }
 ]
@@ -175,7 +171,6 @@ Cada recurso possui endpoints para **Cadastrar (POST)**, **Listar (GET)**, **Edi
 {
   "nome": "Dr. João Silva",
   "crm": "123456",
-  "especialidade": "Cardiologia",
   "email": "joaosilva@medico.com"
 }
 ```
